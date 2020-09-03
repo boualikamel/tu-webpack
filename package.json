@@ -1,0 +1,26 @@
+{
+  "name": "tu-webpack",
+  "version": "1.0.0",
+  "description": "a tutorial for webpack to GIS team",
+  "main": "webpack.config.js",
+  "dependencies": {
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start":"webpack-dev-server --mode development --host 0.0.0.0",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boualikamel/tu-webpack.git"
+  },
+  "author": "Bouali Kamel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/boualikamel/tu-webpack/issues"
+  },
+  "homepage": "https://github.com/boualikamel/tu-webpack#readme"
+}
