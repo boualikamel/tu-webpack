@@ -1,6 +1,7 @@
 const webpack = require("webpack");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 var path = require("path");
+const ArcGISPlugin = require("@arcgis/webpack-plugin");
 
 module.exports = {
   entry: { index: "./src/main.js" },
@@ -31,6 +32,33 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.html$/i,
+        loader: "html-loader",
+      },
+      {
+        test: /\.(png|jpg|gif|svg|ico)$/,
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              name: "[name].[ext]",
+              outputPath: "assets/images"
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(wsv|ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "build/[name].[ext]"
+            }
+          }
+        ]
+      }
     ],
   },
   plugins: [
@@ -40,5 +68,20 @@ module.exports = {
       template: "./src/index.html",
       chunks: ["index"],
     }),
+    new ArcGISPlugin({
+      useDefaultAssetLoaders: false
+    })
   ],
+  resolve: {
+    modules: ["node_modules"],
+    extensions: [".js", ".scss"]
+  },
+  node: {
+    process: false,
+    global: false,
+    fs: "empty"
+  },
+  externals: {
+    moment: "moment"
+  },
 };
