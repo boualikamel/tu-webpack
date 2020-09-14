@@ -5,7 +5,9 @@ a tutorial for webpack to GIS team
 ## Steps to reproduce
 
 ### Initialize the project
-
+```shell
+npm init
+```
 ### Creating webpack config file webpack.config.js
 
 The path library is for path methods
@@ -18,7 +20,29 @@ var path = require("path");
 module.exports = {};
 ```
 
-### Creating source folder and main files index.html main.js main.scss
+### Creating source folder and main files index.html 
+```html<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    helllo
+</body>
+</html>
+```
+### Creating source folder and main files  main.js 
+```js
+console.log('hello from main js')
+```
+### Creating source folder and main files  main.scss
+```js
+body{
+    background-color: darkcyan ;
+}
+```
 
 ### installing webpack into our project
 
@@ -30,7 +54,7 @@ the library webpack is the source library for webpack
 webpack cli is the cli -for the commande line-
 webapack-dev-server is for configuring dev server in our webpack configuration
 
-### first configuration
+### first configuration in  webpack.config.js
 
 ```js
 module.exports = {
@@ -44,7 +68,7 @@ module.exports = {
 
 ### including the commands
 
-the first command we should introduce is for the development server
+the first command we should introduce is for the development server in scripts in package.json file
 
 ```js
 "start":"webpack-dev-server"
@@ -56,7 +80,10 @@ the second command we should introduce is for building our entry file
 "build":"webpack"
 ```
 
-Try it
+Try it 
+```shell
+npm run build 
+```
 
 ### Setting the template index.html as home page
 
@@ -92,7 +119,7 @@ for this we need a `sass-loader` that can load our sass file into our js file an
 ```shell
 npm install -d sass sass-loader css-loader style-loader
 ```
-
+add this to webpackConfig.js
 ```js
  module: {
     rules: [
@@ -107,20 +134,14 @@ npm install -d sass sass-loader css-loader style-loader
           'sass-loader',
         ],
       },
-       {
-      test: /\.m?js$/,
-      exclude: /(node_modules|bower_components)/,
-      use: {
-        loader: 'babel-loader',
-        options: {
-          presets: ['@babel/preset-env']
-        }
-      }
-    }
+    
     ],
   },
 ```
-
+add this to main.js
+```js
+ import './main.scss'
+```
 ### Setting our babel config !
 
 we install the essential package for babel to work the core and the preset env
@@ -143,7 +164,10 @@ and than we add the loader config into our rule option configuration
       }
     }
 ```
-
+add this to main.js
+```js
+let es="hello";
+```
 ### installing our first external dependency sweetalert!
 
 ```shell
