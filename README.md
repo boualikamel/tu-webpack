@@ -45,9 +45,18 @@ console.log("hello from main js");
 
 ### Creating source folder and main files main.scss
 
-```js
-body{
-    background-color: darkcyan ;
+```scss
+html {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: darkcyan;
 }
 ```
 
@@ -248,6 +257,7 @@ we can notice the error indicate there is a loader to add for html than we insta
 npm install --save-dev html-loader
 ```
 
+and we will add the rule of this loader into our config
 add to webpackConfig.js
 
 `````js
@@ -267,8 +277,7 @@ add this to main.scss
 @import "./layouts/header/header.scss";
 ```
 
-and we will add the rule of this loader into our config
-and we will after that add a style for our header and add an other layout, it's about a content of our page
+and we will after that and add an other layout, it's about a content of our page
 
 create content folder and the content.html
 
@@ -298,6 +307,19 @@ export class Content {
     document.getElementById("body").insertAdjacentHTML("afterbegin", template);
   }
 }
+```
+
+add this to main.scss
+
+```scss
+@import "./layouts/content/content.scss";
+```
+
+add this to mains.js
+
+```js
+import { Content } from "./layouts/content/content";
+let content = new Content();
 ```
 
 ### Adding Arcgis PLUGIN :o @arcgis/webpack-plugin
@@ -408,4 +430,10 @@ add this to content.html
 
 ```html
 <main id="mapView"></main>
+```
+
+add this to main.scss
+
+```scss
+@import "~arcgis-js-api/themes/dark-blue/main.css";
 ```
