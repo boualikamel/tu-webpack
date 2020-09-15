@@ -5,9 +5,11 @@ a tutorial for webpack to GIS team
 ## Steps to reproduce
 
 ### Initialize the project
+
 ```shell
 npm init
 ```
+
 ### Creating webpack config file webpack.config.js
 
 The path library is for path methods
@@ -20,24 +22,29 @@ var path = require("path");
 module.exports = {};
 ```
 
-### Creating source folder and main files index.html 
+### Creating source folder and main files index.html
+
 ```html<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     helllo
-</body>
+  </body>
 </html>
 ```
-### Creating source folder and main files  main.js 
+
+### Creating source folder and main files main.js
+
 ```js
-console.log('hello from main js')
+console.log("hello from main js");
 ```
-### Creating source folder and main files  main.scss
+
+### Creating source folder and main files main.scss
+
 ```js
 body{
     background-color: darkcyan ;
@@ -54,14 +61,14 @@ the library webpack is the source library for webpack
 webpack cli is the cli -for the commande line-
 webapack-dev-server is for configuring dev server in our webpack configuration
 
-### first configuration in  webpack.config.js
+### first configuration in webpack.config.js
 
 ```js
 module.exports = {
   entry: { index: "./src/main.js" },
   output: {
     filename: "main.bundle.js",
-    path: "./dist",
+    path: path.resolve(__dirname, "dist"),
   },
 };
 ```
@@ -80,9 +87,10 @@ the second command we should introduce is for building our entry file
 "build":"webpack"
 ```
 
-Try it 
+Try it
+
 ```shell
-npm run build 
+npm run build
 ```
 
 ### Setting the template index.html as home page
@@ -102,12 +110,14 @@ var HtmlWebpackPlugin = require("html-webpack-plugin");
 then we add our configuration into plugin option
 
 ```js
-new HtmlWebpackPlugin({
-  title: "TU WEBPACK",
-  filename: "index.html",
-  template: "./src/index.html",
-  chunks: ["index"],
-});
+    plugins: [
+        new HtmlWebpackPlugin({
+            title: "TU WEBPACK",
+            filename: "index.html",
+            template: "./src/index.html",
+            chunks: ["index"],
+        }),
+    ],
 ```
 
 we try and we can see that the our production file main.bundle.js is added as script
@@ -119,7 +129,9 @@ for this we need a `sass-loader` that can load our sass file into our js file an
 ```shell
 npm install -d sass sass-loader css-loader style-loader
 ```
+
 add this to webpackConfig.js
+
 ```js
  module: {
     rules: [
@@ -134,14 +146,17 @@ add this to webpackConfig.js
           'sass-loader',
         ],
       },
-    
+
     ],
   },
 ```
+
 add this to main.js
+
 ```js
- import './main.scss'
+import "./main.scss";
 ```
+
 ### Setting our babel config !
 
 we install the essential package for babel to work the core and the preset env
@@ -164,17 +179,20 @@ and than we add the loader config into our rule option configuration
       }
     }
 ```
+
 add this to main.js
+
 ```js
-let es="hello";
+let es = "hello";
 ```
+
 ### installing our first external dependency sweetalert!
 
 ```shell
 npm install sweetalert --save
 ```
 
-adding some code
+adding some code to main js
 
 ```js
 import swal from "sweetalert";
@@ -217,16 +235,70 @@ export class Header {
 }
 ```
 
-and we will import header and instanciate it
+and we will import header and instanciate it in main.js
 
 ```js
 import { Header } from "./layouts/header/header";
 let header = new Header();
 ```
 
-we can notice the error indicate there is a loader to add for html than we install this loader `npm install --save-dev html-loader`
+we can notice the error indicate there is a loader to add for html than we install this loader
+
+```shell
+npm install --save-dev html-loader
+```
+
+add to webpackConfig.js
+
+`````js
+     {
+       test: /\.html$/i,
+       loader: "html-loader",
+     },
+```
+add this to index.html
+````html
+<body id='body'>
+`````
+
+add this to main.scss
+
+```scss
+@import "./layouts/header/header.scss";
+```
+
 and we will add the rule of this loader into our config
-and we will after that adding a style for our header and add another layout, it's about a content of our page
+and we will after that add a style for our header and add an other layout, it's about a content of our page
+
+create content folder and the content.html
+
+```html
+<main>hello from content</main>
+```
+
+create the content.scss
+
+```scss
+main {
+  height: calc(100% - 50px);
+  width: 100%;
+  background-color: rgb(115, 126, 123);
+}
+```
+
+create the content.js
+
+```js
+import template from "./content.html";
+export class Content {
+  constructor() {
+    this.setTemplate();
+  }
+  setTemplate() {
+    document.getElementById("body").insertAdjacentHTML("afterbegin", template);
+  }
+}
+```
 
 ### Adding Arcgis PLUGIN :o @arcgis/webpack-plugin
 
@@ -302,4 +374,38 @@ and adding this config .. for disbaling some arcgis web assembly problem with we
   externals: {
     moment: "moment"
   },
+```
+
+update content.js
+
+```js
+import template from "./content.html";
+import Map from "esri/Map";
+import MapView from "esri/views/MapView";
+
+export class Content {
+  constructor() {
+    this.setTemplate();
+    this.initMap();
+  }
+  setTemplate() {
+    document.getElementById("body").insertAdjacentHTML("afterbegin", template);
+  }
+  initMap() {
+    const map = new Map({
+      basemap: "topo-vector",
+    });
+
+    const view = new MapView({
+      container: "mapView", // Reference to the DOM node that will contain the view
+      map: map, // References the map object created in step 3
+    });
+  }
+}
+```
+
+add this to content.html
+
+```html
+<main id="mapView"></main>
 ```
